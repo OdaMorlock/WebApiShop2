@@ -1,0 +1,69 @@
+CREATE TABLE Colors(
+
+	Id int not null identity(1,1) primary key,
+	ColorName nvarchar(50) not null,
+	ColorHex char(9)
+
+)
+
+CREATE TABLE Brands(
+
+	Id int not null identity(1,1) primary key,
+	BrandName nvarchar(50) not null	
+
+)
+
+CREATE TABLE Categories(
+
+	Id int not null identity(1,1) primary key,
+	CategoryName nvarchar(50) not null
+
+)
+
+CREATE TABLE Sizes(
+
+	Id int not null identity(1,1) primary key,
+	SizeName char(8)
+
+)
+
+CREATE TABLE Tags(
+
+	Id int not null identity(1,1) primary key,
+	TagName nvarchar(50) not null
+
+)
+
+
+CREATE TABLE Products(
+
+	Id int not null identity(1,1) primary key,
+	ColorId int references Colors(Id),
+	BrandId int references Brands(Id),
+	CategoryId int references Categories(Id),
+	SizeId int references Sizes(Id),
+	Price int not null,
+	OnSale bit not null,
+	InStock bit not null,
+	Image nvarchar(100),
+	ProductName nvarchar(50)
+	
+)
+
+
+CREATE TABLE TagLists(
+
+	Id int not null identity(1,1) primary key,
+	TagId int not null references Tags(Id),
+	ProdutId int not null references Products(Id)
+
+)
+
+
+
+
+
+
+
+
+Scaffold-DbContext "" Microsoft.EntityFrameworkCore.SqlServer -Context SqlDbContext -ContextDir Data -OutputDir Models
