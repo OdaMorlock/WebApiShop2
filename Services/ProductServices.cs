@@ -181,5 +181,191 @@ namespace WebShopApi2.Services
             }
             return false;
         }
+
+
+
+        public async Task<bool> UpdateBasicAsync(UpdateBasicModel updateBasicModel)
+        {
+            if (updateBasicModel.Destination == "Brand")
+            {
+                if (_context.Brands.Any(brands => brands.BrandName == updateBasicModel.CurrentName))
+                {
+                    try
+                    {
+                        var updatebrand = _context.Brands.FirstOrDefault(x => x.BrandName == updateBasicModel.CurrentName);
+
+                        if (updatebrand != null)
+                        {
+                            updatebrand.BrandName = updateBasicModel.NewName;
+                            await _context.SaveChangesAsync();
+                        }
+                        return true;
+                    }
+                    catch 
+                    {
+
+                        
+                    }
+                }
+              
+            }
+            if (updateBasicModel.Destination == "Category")
+            {
+
+                if (_context.Categories.Any(category => category.CategoryName == updateBasicModel.CurrentName))
+                {
+                    try
+                    {
+                        var updatecategory = _context.Categories.FirstOrDefault(x => x.CategoryName == updateBasicModel.CurrentName);
+
+                        if (updatecategory != null)
+                        {
+                            updatecategory.CategoryName = updateBasicModel.NewName;
+                            await _context.SaveChangesAsync();
+                        }
+                        return true;
+                    }
+                    catch
+                    {
+
+
+                    }
+                }
+
+            }
+            if (updateBasicModel.Destination == "Size")
+            {
+                if (_context.Sizes.Any( size => size.SizeName == updateBasicModel.CurrentName))
+                {
+                    try
+                    {
+                        var updatesize = _context.Sizes.FirstOrDefault(x => x.SizeName == updateBasicModel.CurrentName);
+
+                        if (updatesize != null)
+                        {
+                            updatesize.SizeName = updateBasicModel.NewName;
+                            await _context.SaveChangesAsync();
+                        }
+                        return true;
+                    }
+                    catch
+                    {
+
+
+                    }
+                }
+            }
+            if (updateBasicModel.Destination == "Tag")
+            {
+                if (_context.Tags.Any(tag => tag.TagName == updateBasicModel.CurrentName))
+                {
+                    try
+                    {
+                        var updatetag = _context.Tags.FirstOrDefault(x => x.TagName == updateBasicModel.CurrentName);
+
+                        if (updatetag != null)
+                        {
+                            updatetag.TagName = updateBasicModel.NewName;
+                            await _context.SaveChangesAsync();
+                        }
+                        return true;
+                    }
+                    catch
+                    {
+
+
+                    }
+                }
+            }
+            return false;
+        }
+
+        public async Task<bool> UpdateColorAsync(UpdateColorModel updateColorModel)
+        {
+            if (_context.Colors.Any(color => color.ColorName == updateColorModel.CurrentColorName))
+            {
+                try
+                {
+
+                    var updatecolor = _context.Colors.FirstOrDefault(x => x.ColorName == updateColorModel.CurrentColorName);
+
+                    if (updatecolor != null)
+                    {
+                        if (updateColorModel.NewColorName!= null)
+                        {
+                            updatecolor.ColorName = updateColorModel.NewColorName;
+
+                        }
+                        if (updateColorModel.NewColorHex != null)
+                        {
+                            updatecolor.ColorHex = updateColorModel.NewColorHex;
+                        }
+
+                        await _context.SaveChangesAsync();
+                        return true;
+                    }
+
+                }
+                catch 
+                {
+
+                }
+            }
+            return false;
+        }
+
+        public async Task<bool> UpdatedProductAsync(UpdateProductModel updateProductModel)
+        {
+            var updateproduct = _context.Products.FirstOrDefault(x => x.ProductName == updateProductModel.CurrentProductName);
+            if (updateproduct != null)
+            {
+                if (updateProductModel.NewBrandId != null)
+                {
+                    updateproduct.BrandId = updateProductModel.NewBrandId;
+                }
+                if (updateProductModel.NewCategoryId != null)
+                {
+                    updateproduct.CategoryId = updateProductModel.NewCategoryId;
+                }
+                if (updateProductModel.NewColorId != null)
+                {
+                    updateproduct.CategoryId = updateProductModel.NewColorId;
+                }
+                if (updateProductModel.NewSizeId != null)
+                {
+                    updateproduct.SizeId = updateProductModel.NewSizeId;
+                }
+                if (updateProductModel.NewPrice != 0)
+                {
+                    updateproduct.Price = updateProductModel.NewPrice;
+                }
+                if (updateProductModel.NewProductName != null)
+                {
+                    updateproduct.ProductName = updateProductModel.NewProductName;
+                }
+                await _context.SaveChangesAsync();
+
+                return true;
+
+            }
+            return false;
+        }
+
+        public async Task<bool> UpdateProductStockSaleAsync(UpdateProductStockSaleModel updateProductStockSaleModel)
+        {
+            var updatedProductStockSale = _context.Products.FirstOrDefault(x => x.ProductName == updateProductStockSaleModel.CurrentProductName);
+
+            if (updatedProductStockSale != null)
+            {
+                updatedProductStockSale.InStock = updateProductStockSaleModel.NewInStock;
+                updatedProductStockSale.OnSale = updateProductStockSaleModel.NewOnSale;
+
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            return false;
+        }
+
+
     }
 }

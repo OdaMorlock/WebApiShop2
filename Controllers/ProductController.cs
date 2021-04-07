@@ -32,5 +32,25 @@ namespace WebShopApi2.Controllers
             }
             return new BadRequestObjectResult($"{createProductModel.ProductName} Failed too be Created");
         }
+
+        [HttpPut("UpdateProduct")]
+        public async Task<IActionResult> UpdatedProductAsync([FromBody] UpdateProductModel updateProductModel)
+        {
+            if (await _product.UpdatedProductAsync(updateProductModel))
+            {
+                return new OkObjectResult($"{updateProductModel.CurrentProductName} Uppdated too {updateProductModel.NewProductName}");
+            }
+            return new BadRequestObjectResult($"Failed too Updated {updateProductModel.CurrentProductName}");
+        }
+
+        [HttpPut("UpdateProductStockSale")]
+        public async Task<IActionResult> UpdatedProductStockSaleAsync([FromBody] UpdateProductStockSaleModel updateProductStockSaleModel)
+        {
+            if (await _product.UpdateProductStockSaleAsync(updateProductStockSaleModel))
+            {
+                return new OkObjectResult($"{updateProductStockSaleModel.CurrentProductName} Succesfully Updated");
+            }
+            return new BadRequestObjectResult($"Failed to Updated {updateProductStockSaleModel.CurrentProductName}");
+        }
     }
 }

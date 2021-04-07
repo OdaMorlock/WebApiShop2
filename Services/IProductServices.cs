@@ -11,5 +11,10 @@ namespace WebShopApi2.Services
         Task<bool> CreateBasicAsync(CreateBasicModel createBasicModel);
         Task<bool> CreateColorAsync(CreateColorModel createColorModel);
         Task<bool> CreateProductAsync(CreateProductModel createProductModel);
+
+        Task<bool> UpdateBasicAsync(UpdateBasicModel updateBasicModel);
+        Task<bool> UpdateColorAsync(UpdateColorModel updateColorModel);
+        Task<bool> UpdatedProductAsync(UpdateProductModel updateProductModel);
+        Task<bool> UpdateProductStockSaleAsync(UpdateProductStockSaleModel updateProductStockSaleModel);
     }
 }
