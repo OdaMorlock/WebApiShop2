@@ -68,3 +68,7 @@ CREATE TABLE TagLists(
 
 
 Scaffold-DbContext "" Microsoft.EntityFrameworkCore.SqlServer -Context SqlDbContext -ContextDir Data -OutputDir Models
+
+How Too Update 
+
+Scaffold-DbContext "" Microsoft.EntityFrameworkCore.SqlServer -Context SqlDbContext -ContextDir Data -OutputDir Models -Force

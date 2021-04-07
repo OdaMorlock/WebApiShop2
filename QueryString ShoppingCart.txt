@@ -1,0 +1,20 @@
+﻿CREATE TABLE ProductShoppingCarts(
+
+	Id int not null identity(1,1) primary key,
+	ProductId int references Products(Id) not null,
+	ProductPrice int not null,
+	Quantity int not null,
+	SubTotal int not null
+
+
+)
+
+CREATE TABLE ShoppingCarts(
+
+	Id int not null identity (1,1) primary key,
+	ShoppingListId int references ProductShoppingCarts(Id) not null,
+	ShippingFree bit not null,
+	ShippingLocalPickup bit not null, 
+	Total int not null,
+	Coupon bit null
+)

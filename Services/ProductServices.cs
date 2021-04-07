@@ -469,7 +469,7 @@ namespace WebShopApi2.Services
 
 
                 }
-                result.Message = $"Failed Try Catch in if(Brand)";
+                result.Message = $"Failed Try Catch in if(Brand) Cannot delete if connected too Product";
                 result.Result = false;
                 return result;
 
@@ -489,7 +489,7 @@ namespace WebShopApi2.Services
 
 
                 }
-                result.Message = $"Failed Try Catch in if(Category)";
+                result.Message = $"Failed Try Catch in if(Category) Cannot delete if connected too Product";
                 result.Result = false;
                 return result;
             }
@@ -507,7 +507,7 @@ namespace WebShopApi2.Services
                 {
 
                 }
-                result.Message = $"Failed Try Catch in if(Size)";
+                result.Message = $"Failed Try Catch in if(Size) Cannot delete if connected too Product";
                 result.Result = false;
                 return result;
             }
@@ -526,7 +526,7 @@ namespace WebShopApi2.Services
 
 
                 }
-                result.Message = $"Failed Try Catch in if(Tag)";
+                result.Message = $"Failed Try Catch in if(Tag) Cannot delete if connected too Product";
                 result.Result = false;
                 return result;
             }
@@ -549,7 +549,7 @@ namespace WebShopApi2.Services
 
 
                 }
-                result.Message = $"Failed Try Catch in if(Color)";
+                result.Message = $"Failed Try Catch in if(Color) Cannot delete if connected too Product";
                 result.Result = false;
                 return result;
             }
