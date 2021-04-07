@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebShopApi2.Data;
+using WebShopApi2.Models;
+using WebShopApi2.Models.CartServiceModels;
 using WebShopApi2.Services;
 
 namespace WebShopApi2.Controllers
@@ -22,6 +24,16 @@ namespace WebShopApi2.Controllers
             _shopping = shopping;
         }
 
+        [HttpPost("CreateShoppingCart")]
+        public async Task<IActionResult> CreateShoppingCartAsync(ShoppingCartListModel shoppingCartListModel)
+        {
+            var Result = (await _shopping.CreateShoppingCartAsync(shoppingCartListModel));
+            if (Result.Result)
+            {
+                return new OkObjectResult($"{Result.Message}");
+            }
+            return new BadRequestObjectResult($"{Result.Message}");
+        }
 
     }
 }
