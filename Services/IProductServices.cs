@@ -16,5 +16,8 @@ namespace WebShopApi2.Services
         Task<bool> UpdateColorAsync(UpdateColorModel updateColorModel);
         Task<bool> UpdatedProductAsync(UpdateProductModel updateProductModel);
         Task<bool> UpdateProductStockSaleAsync(UpdateProductStockSaleModel updateProductStockSaleModel);
+
+        Task<bool> DeleteBasicAsync(DeleteBasicModel deleteBasicModel);
+        Task<ResultWithMessageModel> DeleteAsync(DeleteBasicModel deleteBasicModel);
     }
 }
