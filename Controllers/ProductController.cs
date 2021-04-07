@@ -12,12 +12,12 @@ namespace WebShopApi2.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AddProductController : ControllerBase
+    public class ProductController : ControllerBase
     {
         private readonly SqlDbContext _context;
         private readonly IProductServices _product;
 
-        public AddProductController(SqlDbContext context, IProductServices product)
+        public ProductController(SqlDbContext context, IProductServices product)
         {
             _context = context;
             _product = product;

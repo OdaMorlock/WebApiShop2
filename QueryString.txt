@@ -46,7 +46,8 @@ CREATE TABLE Products(
 	OnSale bit not null,
 	InStock bit not null,
 	Image nvarchar(100),
-	ProductName nvarchar(50)
+	ProductName nvarchar(50) not null,
+	AddedDate DateTime not null
 	
 )
 

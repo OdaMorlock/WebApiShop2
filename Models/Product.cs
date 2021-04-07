@@ -23,6 +23,9 @@ namespace WebShopApi2.Models
         public string Image { get; set; }
 
         public string ProductName { get; set; }
+        public DateTime AddedDate { get; set; }
+
+
 
         public virtual Brand Brand { get; set; }
         public virtual Category Category { get; set; }

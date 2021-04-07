@@ -153,6 +153,7 @@ namespace WebShopApi2.Services
             {
                 try
                 {
+
                     var product = new Product()
                     {             
                         ColorId = createProductModel.ColorId,
@@ -163,7 +164,9 @@ namespace WebShopApi2.Services
                         OnSale = createProductModel.OnSale,
                         InStock = createProductModel.InStock,
                         Image = createProductModel.Image,
-                        ProductName = createProductModel.ProductName
+                        ProductName = createProductModel.ProductName,
+                        AddedDate = DateTime.Now,
+                         
                         
                     };
                     _context.Products.Add(product);
