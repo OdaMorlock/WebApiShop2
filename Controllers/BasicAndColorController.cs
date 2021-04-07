@@ -43,5 +43,31 @@ namespace WebShopApi2.Controllers
 
             return new BadRequestObjectResult($"{createColorModel.ColorName} Unable too Create {createColorModel.ColorHex}");
         }
+
+
+
+        [HttpPut("UpdateBasic")]
+        public async Task<IActionResult> UpdateBasicAsync([FromBody] UpdateBasicModel updateBasicModel)
+        {
+            if (await _product.UpdateBasicAsync(updateBasicModel))
+            {
+                return new OkObjectResult($"{updateBasicModel.Destination} Successfully Updated");
+            }
+            return new BadRequestObjectResult($"{updateBasicModel.Destination} Failed too updated, Try Brand,  Category,  Size or Tag as Destination");
+        }
+
+        [HttpPut("UpdateColor")]
+        public async Task<IActionResult> UpdateColorAsync([FromBody] UpdateColorModel updateColorModel)
+        {
+            if (await _product.UpdateColorAsync(updateColorModel))
+            {
+                return new OkObjectResult($"{updateColorModel.CurrentColorName} Updated with name {updateColorModel.NewColorName}");
+            }
+            return new BadRequestObjectResult($"{updateColorModel.CurrentColorName} Failed to Updated");
+        }
+
     }
+
+
+
 }
