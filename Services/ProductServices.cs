@@ -367,5 +367,218 @@ namespace WebShopApi2.Services
         }
 
 
+
+
+        public async Task<bool> DeleteBasicAsync(DeleteBasicModel deleteBasicModel)
+        {
+            if (deleteBasicModel.Destination == "Brand")
+            {
+                try
+                {
+                    _context.Brands.Remove(_context.Brands.FirstOrDefault(x => x.BrandName == deleteBasicModel.DeleteName));
+                    await _context.SaveChangesAsync();
+                    return true;
+                }
+                catch 
+                {
+
+                    
+                }
+                
+                
+            }
+            if (deleteBasicModel.Destination == "Category")
+            {
+                try
+                {
+                    _context.Categories.Remove(_context.Categories.FirstOrDefault(x => x.CategoryName == deleteBasicModel.DeleteName));
+                    await _context.SaveChangesAsync();
+                    return true;
+                }
+                catch 
+                {
+
+                    
+                }
+            }
+            if (deleteBasicModel.Destination == "Size")
+            {
+                try
+                {
+                    _context.Sizes.Remove(_context.Sizes.FirstOrDefault(x => x.SizeName == deleteBasicModel.DeleteName));
+                    await _context.SaveChangesAsync();
+                    return true;
+                }
+                catch 
+                {
+                    
+                }
+            }
+            if (deleteBasicModel.Destination == "Tag")
+            {
+                try
+                {
+                    _context.Tags.Remove(_context.Tags.FirstOrDefault(x => x.TagName == deleteBasicModel.DeleteName));
+                    await _context.SaveChangesAsync();
+                    return true;
+                }
+                catch
+                {
+
+
+                }
+            }
+            if (deleteBasicModel.Destination == "Color")
+            {
+                try
+                {
+                    if (_context.Colors.Any(color => color.ColorName == deleteBasicModel.DeleteName))
+                    {
+                        _context.Colors.Remove(_context.Colors.FirstOrDefault(x => x.ColorName == deleteBasicModel.DeleteName));
+                        await _context.SaveChangesAsync();
+                        return true;
+
+                    }
+                }
+                catch 
+                {
+
+                    
+                }
+            }
+            return false;
+        }
+
+        public async Task<ResultWithMessageModel> DeleteAsync(DeleteBasicModel deleteBasicModel)
+        {
+
+            var result = new ResultWithMessageModel();
+
+            if (deleteBasicModel.Destination == "Brand")
+            {
+                try
+                {
+                    _context.Brands.Remove(_context.Brands.FirstOrDefault(x => x.BrandName == deleteBasicModel.DeleteName));
+                    await _context.SaveChangesAsync();
+                    result.Message = $"{deleteBasicModel.DeleteName} Succesfully Deleted";
+                    result.Result = true;
+                    return result;
+                }
+                catch
+                {
+
+
+                }
+                result.Message = $"Failed Try Catch in if(Brand)";
+                result.Result = false;
+                return result;
+
+            }
+            if (deleteBasicModel.Destination == "Category")
+            {
+                try
+                {
+                    _context.Categories.Remove(_context.Categories.FirstOrDefault(x => x.CategoryName == deleteBasicModel.DeleteName));
+                    await _context.SaveChangesAsync();
+                    result.Message = $"{deleteBasicModel.DeleteName} Succesfully Deleted";
+                    result.Result = true;
+                    return result;
+                }
+                catch
+                {
+
+
+                }
+                result.Message = $"Failed Try Catch in if(Category)";
+                result.Result = false;
+                return result;
+            }
+            if (deleteBasicModel.Destination == "Size")
+            {
+                try
+                {
+                    _context.Sizes.Remove(_context.Sizes.FirstOrDefault(x => x.SizeName == deleteBasicModel.DeleteName));
+                    await _context.SaveChangesAsync();
+                    result.Message = $"{deleteBasicModel.DeleteName} Succesfully Deleted";
+                    result.Result = true;
+                    return result;
+                }
+                catch
+                {
+
+                }
+                result.Message = $"Failed Try Catch in if(Size)";
+                result.Result = false;
+                return result;
+            }
+            if (deleteBasicModel.Destination == "Tag")
+            {
+                try
+                {
+                    _context.Tags.Remove(_context.Tags.FirstOrDefault(x => x.TagName == deleteBasicModel.DeleteName));
+                    await _context.SaveChangesAsync();
+                    result.Message = $"{deleteBasicModel.DeleteName} Succesfully Deleted";
+                    result.Result = true;
+                    return result;
+                }
+                catch
+                {
+
+
+                }
+                result.Message = $"Failed Try Catch in if(Tag)";
+                result.Result = false;
+                return result;
+            }
+            if (deleteBasicModel.Destination == "Color")
+            {
+                try
+                {
+                    if (_context.Colors.Any(color => color.ColorName == deleteBasicModel.DeleteName))
+                    {
+                        _context.Colors.Remove(_context.Colors.FirstOrDefault(x => x.ColorName == deleteBasicModel.DeleteName));
+                        await _context.SaveChangesAsync();
+                        result.Message = $"{deleteBasicModel.DeleteName} Succesfully Deleted";
+                        result.Result = true;
+                        return result;
+
+                    }
+                }
+                catch
+                {
+
+
+                }
+                result.Message = $"Failed Try Catch in if(Color)";
+                result.Result = false;
+                return result;
+            }
+            if (deleteBasicModel.Destination == "Product")
+            {
+                try
+                {
+                    if (_context.Products.Any(x => x.ProductName == deleteBasicModel.DeleteName))
+                    {
+                        _context.Products.Remove(_context.Products.FirstOrDefault(x => x.ProductName == deleteBasicModel.DeleteName));
+                        await _context.SaveChangesAsync();
+                        result.Message = $"{deleteBasicModel.DeleteName} Succesfully Deleted";
+                        result.Result = true;
+                        return result;
+                    }
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+                result.Message = $"Failed Try Catch in if(Product)";
+                result.Result = false;
+                return result;
+            }
+            result.Message = $"{deleteBasicModel.Destination} Were not a vaild Destination try   Brand,  Category,  Size,  Tag,  Color,  Product";
+            result.Result = false;
+            return result;
+
+        }
     }
 }

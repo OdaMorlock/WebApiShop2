@@ -30,11 +30,11 @@ namespace WebShopApi2.Controllers
             {
                 return new OkObjectResult($"{createBasicModel.Destination} Created Successfully");
             }
-            return new BadRequestObjectResult($"{createBasicModel.Destination} Unable too Create Try   Brand,   Category,    Size,    Tag");
+            return new BadRequestObjectResult($"{createBasicModel.Destination} Unable too Create Try   Brand,   Category,    Size(Max 8 Char),    Tag");
         }
 
         [HttpPost("AddColor")]
-        public async Task<IActionResult> CreateColorAsync ([FromBody] CreateColorModel createColorModel)
+        public async Task<IActionResult> CreateColorAsync([FromBody] CreateColorModel createColorModel)
         {
             if (await _product.CreateColorAsync(createColorModel))
             {
@@ -65,6 +65,8 @@ namespace WebShopApi2.Controllers
             }
             return new BadRequestObjectResult($"{updateColorModel.CurrentColorName} Failed to Updated");
         }
+
+
 
     }
 
