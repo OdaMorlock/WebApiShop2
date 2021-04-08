@@ -25,7 +25,7 @@ namespace WebShopApi2.Controllers
         }
 
         [HttpPost("CreateShoppingCart")]
-        public async Task<IActionResult> CreateShoppingCartAsync(ShoppingCartListModel shoppingCartListModel)
+        public async Task<IActionResult> CreateShoppingCartAsync([FromBody]ShoppingCartListModel shoppingCartListModel)
         {
             
             var Result = (await _shopping.CreateShoppingCartAsync(shoppingCartListModel));
