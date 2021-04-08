@@ -18,3 +18,17 @@ CREATE TABLE ShoppingCarts(
 	Total int not null,
 	Coupon bit null
 )
+
+CREATE TABLE CartNumbers(
+	
+	Id int not null identity (1,1) primary key
+)
+
+CREATE TABLE ShoppingCartLists(
+
+	Id int not null identity (1,1) primary key,
+	CartNumberId int references CartNumbers(Id) not null,
+	ShoppingCartId int references ShoppingCarts(Id) not null
+
+)
+

@@ -9,8 +9,7 @@ namespace WebShopApi2.Models.CartServiceModels
     {
         public int ShoppingListId { get; set; }
         public bool ShippingFree { get; set; }
-        public bool ShippingLocalPickup { get; set; }
-        public int Total { get; set; }
+        public bool ShippingLocalPickup { get; set; }      
         public bool? Coupon { get; set; }
     }
 }

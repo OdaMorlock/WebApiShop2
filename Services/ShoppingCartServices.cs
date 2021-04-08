@@ -63,9 +63,37 @@ namespace WebShopApi2.Services
             return Result;
         }
 
-        public Task<ResultWithMessage> CreateShoppingTotalAsync(ShoppingTotalModel shoppingTotalModel)
+        public async Task<ResultWithMessage> CreateShoppingTotalAsync(ShoppingTotalModel shoppingTotalModel)
         {
-            throw new NotImplementedException();
+            var Result = new ResultWithMessage();
+
+            try
+            {
+                int total = 0;
+
+                var cartTotal = new ShoppingCart
+                {
+                    ShoppingListId = shoppingTotalModel.ShoppingListId,
+                    ShippingFree = shoppingTotalModel.ShippingFree,
+                    ShippingLocalPickup = shoppingTotalModel.ShippingLocalPickup,
+                    Coupon = shoppingTotalModel.Coupon,
+                    Total = total
+                };
+                _context.ShoppingCarts.Add(cartTotal);
+                await _context.SaveChangesAsync();
+                Result.Message = $"Succeded On Creating ShoppingCartTotal";
+                Result.Result = true;
+                return Result;
+            }
+            catch (Exception)
+            {
+
+                
+            }
+
+            Result.Message = $"Failed On Creating ShoppingCartTotal";
+            Result.Result = false;
+            return Result;
         }
     }
 }
