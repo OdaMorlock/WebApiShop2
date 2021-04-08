@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace WebShopApi2.Models.ServiceModels
+namespace WebShopApi2.Models.ProductServiceModels
 {
-    public class CreateBasicModel
+    public class DeleteBasicModel
     {
         public string Destination { get; set; }
-        public string Name { get; set; }
+        public string DeleteName { get; set; }
     }
 }

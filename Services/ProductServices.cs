@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebShopApi2.Data;
 using WebShopApi2.Models;
-using WebShopApi2.Models.ServiceModels;
+using WebShopApi2.Models.ProductServiceModels;
 
 namespace WebShopApi2.Services
 {

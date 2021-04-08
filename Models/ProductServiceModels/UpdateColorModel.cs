@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace WebShopApi2.Models.ServiceModels
+namespace WebShopApi2.Models.ProductServiceModels
 {
     public class UpdateColorModel
     {
