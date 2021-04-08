@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebShopApi2.Data;
-using WebShopApi2.Models.ServiceModels;
+using WebShopApi2.Models.ProductServiceModels;
 using WebShopApi2.Services;
 
 namespace WebShopApi2.Controllers
