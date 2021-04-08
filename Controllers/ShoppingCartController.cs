@@ -38,7 +38,16 @@ namespace WebShopApi2.Controllers
             return new BadRequestObjectResult($"{Result.Message},  {Result2.Message},  {Result3.Message}");
         }
 
-        
 
+        [HttpPost("CreateShoppingTotal")]
+        public async Task<IActionResult> CreateShoppingTotal([FromBody] ShoppingTotalModel shoppingTotalModel)
+        {
+            var Result = (await _shopping.CreateShoppingTotalAsync(shoppingTotalModel));
+            if (Result.Result)
+            {
+                return new OkObjectResult($"{Result.Message},");
+            }
+            return new BadRequestObjectResult($"{Result.Message},");
+        }
     }
 }

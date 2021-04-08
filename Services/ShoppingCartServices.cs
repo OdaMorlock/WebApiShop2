@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -120,17 +121,46 @@ namespace WebShopApi2.Services
             {
                 int total = 0;
 
-                var cartTotal = new ShoppingCart
+                var shoppingCartList = _context.ShoppingCartLists.ToList();
+
+                var cartContent = shoppingCartList.FindAll(x => x.CartNumberId == shoppingTotalModel.ShoppingCartId);
+
+                foreach (var item in cartContent)
                 {
-                    ShoppingCartId = shoppingTotalModel.ShoppingCartId,
-                    ShippingFree = shoppingTotalModel.ShippingFree,
-                    ShippingLocalPickup = shoppingTotalModel.ShippingLocalPickup,
-                    Coupon = shoppingTotalModel.Coupon,
-                    Total = total
-                };
+                   total = item.ProductShoppingCart.SubTotal + total;
+                }
+
+
+
+                if (shoppingTotalModel.Coupon == true)
+                {
+                    double discount = total / 1.20;
+                    total = Convert.ToInt32(discount);
+                    
+                }
+
+                if (!shoppingTotalModel.ShippingFree)
+                {
+                    total = total + 20;
+
+                    if (shoppingTotalModel.ShippingLocalPickup)
+                    {
+                        total = total + 25;
+                    }
+                }
+
+                var cartTotal = new ShoppingCart
+                    {
+                        ShoppingCartId = shoppingTotalModel.ShoppingCartId,
+                        ShippingFree = shoppingTotalModel.ShippingFree,
+                        ShippingLocalPickup = shoppingTotalModel.ShippingLocalPickup,
+                        Coupon = shoppingTotalModel.Coupon,
+                        Total = total
+                    };
+
                 _context.ShoppingCarts.Add(cartTotal);
                 await _context.SaveChangesAsync();
-                Result.Message = $"Succeded On Creating ShoppingCartTotal";
+                Result.Message = $"Succeded On Creating ShoppingCartTotal ({total})";
                 Result.Result = true;
                 return Result;
             }
