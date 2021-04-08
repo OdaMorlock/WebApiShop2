@@ -9,6 +9,7 @@ namespace WebShopApi2.Models
     {
         public Product()
         {
+            ProductShoppingCarts = new HashSet<ProductShoppingCart>();
             TagLists = new HashSet<TagList>();
         }
 
@@ -21,16 +22,14 @@ namespace WebShopApi2.Models
         public bool OnSale { get; set; }
         public bool InStock { get; set; }
         public string Image { get; set; }
-
         public string ProductName { get; set; }
         public DateTime AddedDate { get; set; }
-
-
 
         public virtual Brand Brand { get; set; }
         public virtual Category Category { get; set; }
         public virtual Color Color { get; set; }
         public virtual Size Size { get; set; }
+        public virtual ICollection<ProductShoppingCart> ProductShoppingCarts { get; set; }
         public virtual ICollection<TagList> TagLists { get; set; }
     }
 }

@@ -19,13 +19,16 @@ namespace WebShopApi2.Data
         }
 
         public virtual DbSet<Brand> Brands { get; set; }
+        public virtual DbSet<CartNumber> CartNumbers { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<Color> Colors { get; set; }
         public virtual DbSet<Product> Products { get; set; }
+        public virtual DbSet<ProductShoppingCart> ProductShoppingCarts { get; set; }
+        public virtual DbSet<ShoppingCart> ShoppingCarts { get; set; }
+        public virtual DbSet<ShoppingCartList> ShoppingCartLists { get; set; }
         public virtual DbSet<Size> Sizes { get; set; }
         public virtual DbSet<Tag> Tags { get; set; }
         public virtual DbSet<TagList> TagLists { get; set; }
-
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -37,6 +40,11 @@ namespace WebShopApi2.Data
                 entity.Property(e => e.BrandName)
                     .IsRequired()
                     .HasMaxLength(50);
+            });
+
+            modelBuilder.Entity<CartNumber>(entity =>
+            {
+                entity.Property(e => e.Name).HasMaxLength(50);
             });
 
             modelBuilder.Entity<Category>(entity =>
@@ -60,11 +68,13 @@ namespace WebShopApi2.Data
 
             modelBuilder.Entity<Product>(entity =>
             {
+                entity.Property(e => e.AddedDate).HasColumnType("datetime");
+
                 entity.Property(e => e.Image).HasMaxLength(100);
 
                 entity.Property(e => e.ProductName)
-                .IsRequired()
-                .HasMaxLength(50);
+                    .IsRequired()
+                    .HasMaxLength(50);
 
                 entity.HasOne(d => d.Brand)
                     .WithMany(p => p.Products)
@@ -85,6 +95,39 @@ namespace WebShopApi2.Data
                     .WithMany(p => p.Products)
                     .HasForeignKey(d => d.SizeId)
                     .HasConstraintName("FK__Products__SizeId__300424B4");
+            });
+
+            modelBuilder.Entity<ProductShoppingCart>(entity =>
+            {
+                entity.HasOne(d => d.Product)
+                    .WithMany(p => p.ProductShoppingCarts)
+                    .HasForeignKey(d => d.ProductId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__ProductSh__Produ__3D5E1FD2");
+            });
+
+            modelBuilder.Entity<ShoppingCart>(entity =>
+            {
+                entity.HasOne(d => d.ShoppingCartNavigation)
+                    .WithMany(p => p.ShoppingCarts)
+                    .HasForeignKey(d => d.ShoppingCartId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__ShoppingC__Shopp__5AEE82B9");
+            });
+
+            modelBuilder.Entity<ShoppingCartList>(entity =>
+            {
+                entity.HasOne(d => d.CartNumber)
+                    .WithMany(p => p.ShoppingCartLists)
+                    .HasForeignKey(d => d.CartNumberId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__ShoppingC__CartN__4BAC3F29");
+
+                entity.HasOne(d => d.ProductShoppingCart)
+                    .WithMany(p => p.ShoppingCartLists)
+                    .HasForeignKey(d => d.ProductShoppingCartId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__ShoppingC__Produ__5BE2A6F2");
             });
 
             modelBuilder.Entity<Size>(entity =>

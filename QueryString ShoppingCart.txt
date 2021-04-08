@@ -1,0 +1,35 @@
+﻿CREATE TABLE ProductShoppingCarts(
+
+	Id int not null identity(1,1) primary key,
+	ProductId int references Products(Id) not null,
+	ProductPrice int not null,
+	Quantity int not null,
+	SubTotal int not null
+
+
+)
+
+CREATE TABLE ShoppingCarts(
+
+	Id int not null identity (1,1) primary key,
+	ShoppingCartId int references CartNumbers(Id) not null,
+	ShippingFree bit not null,
+	ShippingLocalPickup bit not null, 
+	Total int not null,
+	Coupon bit null
+)
+
+CREATE TABLE CartNumbers(
+	
+	Id int not null identity (1,1) primary key,
+	Name nvarchar(50) not null
+)
+
+CREATE TABLE ShoppingCartLists(
+
+	Id int not null identity (1,1) primary key,
+	CartNumberId int references CartNumbers(Id) not null,
+	ProductShoppingCartId int references ProductShoppingCarts(Id) not null
+
+)
+

@@ -31,6 +31,7 @@ namespace WebShopApi2
         {
 
             services.AddScoped<IProductServices, ProductServices>();
+            services.AddScoped<IShoppingCartServices, ShoppingCartServices>();
 
             services.AddDbContext<SqlDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Sqlconnection")));
 
