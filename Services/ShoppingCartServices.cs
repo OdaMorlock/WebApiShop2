@@ -123,6 +123,8 @@ namespace WebShopApi2.Services
 
                 var shoppingCartList = _context.ShoppingCartLists.ToList();
 
+                var prodcutCartList = _context.ProductShoppingCarts.ToList();
+
                 var cartContent = shoppingCartList.FindAll(x => x.CartNumberId == shoppingTotalModel.ShoppingCartId);
 
                 foreach (var item in cartContent)
