@@ -11,5 +11,9 @@ namespace WebShopApi2.Services
         Task<ResultWithMessage> CreateShoppingCartAsync(ShoppingCartListModel shoppingCartListModel);
 
         Task<ResultWithMessage> CreateShoppingTotalAsync(ShoppingTotalModel  shoppingTotalModel);
+
+        Task<ResultWithMessage> CreateCartNumberAsync(string CartName);
+
+        Task<ResultWithMessage> AddItemToCartAsync(int ProductCartId, int CartNumberId);
     }
 }

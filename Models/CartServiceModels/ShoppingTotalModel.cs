@@ -7,7 +7,7 @@ namespace WebShopApi2.Models.CartServiceModels
 {
     public class ShoppingTotalModel
     {
-        public int ShoppingListId { get; set; }
+        public int ShoppingCartId { get; set; }
         public bool ShippingFree { get; set; }
         public bool ShippingLocalPickup { get; set; }      
         public bool? Coupon { get; set; }

@@ -27,13 +27,18 @@ namespace WebShopApi2.Controllers
         [HttpPost("CreateShoppingCart")]
         public async Task<IActionResult> CreateShoppingCartAsync(ShoppingCartListModel shoppingCartListModel)
         {
+            
             var Result = (await _shopping.CreateShoppingCartAsync(shoppingCartListModel));
-            if (Result.Result)
+            var Result2 = (await _shopping.CreateCartNumberAsync(shoppingCartListModel.CartName));
+            var Result3 = (await _shopping.AddItemToCartAsync(shoppingCartListModel.ProductCartId, shoppingCartListModel.CartNumberId));
+            if (Result.Result && Result2.Result && Result3.Result )
             {
-                return new OkObjectResult($"{Result.Message}");
+                return new OkObjectResult($"{Result.Message},  {Result2.Message},  {Result3.Message}");
             }
-            return new BadRequestObjectResult($"{Result.Message}");
+            return new BadRequestObjectResult($"{Result.Message},  {Result2.Message},  {Result3.Message}");
         }
+
+        
 
     }
 }

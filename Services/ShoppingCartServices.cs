@@ -19,11 +19,52 @@ namespace WebShopApi2.Services
 
         }
 
+
+        public async Task<ResultWithMessage> CreateCartNumberAsync(string CartName)
+        {
+            var Result = new ResultWithMessage();
+
+            if (CartName != null)
+            {
+                try
+                {
+                    if (!_context.CartNumbers.Any(x => x.Name == CartName))
+                    {
+                        var cartNumber = new CartNumber
+                        {
+                            Name = CartName
+                        };
+                        _context.CartNumbers.Add(cartNumber);
+                        await _context.SaveChangesAsync();
+                        Result.Message = $"Successfully Created CartNumber";
+                        Result.Result = true;
+                        return Result;
+                    }
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+            }
+            if (CartName == null)
+            {
+                Result.Message = $"CartName=Null";
+                Result.Result = true;
+                return Result;
+            }
+            
+            Result.Message = $"Failed Created CartNumber";
+            Result.Result = false;
+            return Result;
+        }
+
         public async Task<ResultWithMessage> CreateShoppingCartAsync(ShoppingCartListModel shoppingCartListModel)
         {
             var Result = new ResultWithMessage();
 
-
+            if (shoppingCartListModel.ProductId != 0)
+            {
                 try
                 {
                     var product = _context.Products.FirstOrDefault(x => x.Id == shoppingCartListModel.ProductId);
@@ -49,8 +90,16 @@ namespace WebShopApi2.Services
                 catch (Exception)
                 {
 
-                    
+
                 }
+            }
+            if (shoppingCartListModel.ProductId == 0)
+            {
+                Result.Message = $"ProductId = 0";
+                Result.Result = true;
+                return Result;
+            }
+                
                 
 
 
@@ -73,7 +122,7 @@ namespace WebShopApi2.Services
 
                 var cartTotal = new ShoppingCart
                 {
-                    ShoppingListId = shoppingTotalModel.ShoppingListId,
+                    ShoppingCartId = shoppingTotalModel.ShoppingCartId,
                     ShippingFree = shoppingTotalModel.ShippingFree,
                     ShippingLocalPickup = shoppingTotalModel.ShippingLocalPickup,
                     Coupon = shoppingTotalModel.Coupon,
@@ -93,6 +142,48 @@ namespace WebShopApi2.Services
 
             Result.Message = $"Failed On Creating ShoppingCartTotal";
             Result.Result = false;
+            return Result;
+        }
+
+
+        public async Task<ResultWithMessage> AddItemToCartAsync(int ProductCartId, int CartNumberId)
+        {
+            var Result = new ResultWithMessage();
+
+            if (ProductCartId != 0 && CartNumberId != 0)
+            {
+                try
+                {
+                    var shopingCartList = new ShoppingCartList
+                    {
+                        ProductShoppingCartId = ProductCartId,
+                        CartNumberId = CartNumberId
+                    };
+
+                    await _context.ShoppingCartLists.AddAsync(shopingCartList);
+                    await _context.SaveChangesAsync();
+
+                    Result.Result = true;
+                    Result.Message = $"Succeded in adding Product too Cart";
+                    return Result;
+
+                }
+                catch (Exception)
+                {
+
+
+                }
+            }
+            if (ProductCartId == 0 && CartNumberId == 0)
+            {
+                Result.Result = true;
+                Result.Message = $"ProductCartId = 0  &&  CartNumberId = 0";
+                return Result;
+            }
+            
+
+            Result.Result = false;
+            Result.Message = $"Failed in adding Product too Cart";
             return Result;
         }
     }
