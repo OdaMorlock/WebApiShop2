@@ -9,6 +9,12 @@
 
 )
 
+CREATE TABLE CartNumbers(
+	
+	Id int not null identity (1,1) primary key,
+	Name nvarchar(50) not null
+)
+
 CREATE TABLE ShoppingCarts(
 
 	Id int not null identity (1,1) primary key,
@@ -19,11 +25,6 @@ CREATE TABLE ShoppingCarts(
 	Coupon bit null
 )
 
-CREATE TABLE CartNumbers(
-	
-	Id int not null identity (1,1) primary key,
-	Name nvarchar(50) not null
-)
 
 CREATE TABLE ShoppingCartLists(
 
