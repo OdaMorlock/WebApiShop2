@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using WebShopApi2.Data;
@@ -23,8 +24,8 @@ namespace WebShopApi2.Services
 
             try
             {
-
-                if (createBasicModel.Destination == "Brand")
+                string titleCase = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(createBasicModel.Destination);
+                if (titleCase == "Brand" )
                 {
                     if (! _context.Brands.Any(brand => brand.BrandName == createBasicModel.Name))
                     {
@@ -46,7 +47,7 @@ namespace WebShopApi2.Services
                         }
                     }
                 }
-                if (createBasicModel.Destination == "Category")
+                if (titleCase == "Category" )
                 {
                     if (!_context.Categories.Any(categories => categories.CategoryName == createBasicModel.Name))
                     {
@@ -68,7 +69,7 @@ namespace WebShopApi2.Services
                         }
                     }
                 }
-                if (createBasicModel.Destination == "Size")
+                if (titleCase == "Size" )
                 {
                     if (!_context.Sizes.Any(size => size.SizeName == createBasicModel.Name))
                     {
@@ -90,7 +91,7 @@ namespace WebShopApi2.Services
                         }
                     }
                 }
-                if (createBasicModel.Destination == "Tag")
+                if (titleCase == "Tag" )
                 {
                     if (!_context.Tags.Any(tag => tag.TagName == createBasicModel.Name))
                     {
@@ -500,6 +501,128 @@ namespace WebShopApi2.Services
             result.Result = false;
             return result;
 
+        }
+
+        public ResultWithMessagProductListModel SearchProductForContent(SearchProductModel searchProductModel)
+        {
+            var Result = new ResultWithMessagProductListModel();
+
+            var produtList = _context.Products.ToList();
+
+            
+            
+            
+            try
+            {
+
+                string titleCase = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(searchProductModel.Destination);
+                if (titleCase == "Brand")
+                {
+                    if (_context.Brands.Any(x => x.BrandName  == searchProductModel.Target))
+                    {
+                        var matched = _context.Brands.FirstOrDefault(x => x.BrandName == searchProductModel.Target);
+
+                        var productList = _context.Products.ToList();
+
+                        var listOfMatchedProducts = productList.FindAll(x => x.BrandId == matched.Id);
+
+                        Result.SetProducts(listOfMatchedProducts);
+                        Result.Result = true;
+                        Result.Message = $"Succeded in finding  Destination:{searchProductModel.Destination} and getting list of Id for Brands Matching {searchProductModel.Target}  ID:{matched.Id}. ";
+                        return Result;
+
+                    }
+
+                    Result.Result = false;
+                    Result.Message = $"Failed if( name exist in DataBase on Brand).     Destination:{searchProductModel.Destination}.  Target:{searchProductModel.Target} ";
+                    return Result;
+
+                    
+                }
+                if (titleCase == "Category")
+                {
+                    if (_context.Categories.Any(x => x.CategoryName  == searchProductModel.Target))
+                    {
+                        var matched = _context.Categories.FirstOrDefault(x => x.CategoryName == searchProductModel.Target);
+
+                        var productlist = _context.Products.ToList();
+
+                        var listOfMatchedProducts = productlist.FindAll(x => x.CategoryId == matched.Id);
+
+
+
+                        Result.SetProducts(listOfMatchedProducts);
+                        Result.Result = true;
+                        Result.Message = $"Succeded in finding  Destination:{searchProductModel.Destination} and getting list of Id for Category Matching {searchProductModel.Target}  ID:{matched.Id}. ";
+                        return Result;
+
+                    }
+
+                    Result.Result = false;
+                    Result.Message = $"Failed if( name exist in DataBase on Category).     Destination:{searchProductModel.Destination}.  Target:{searchProductModel.Target} ";
+                    return Result;
+
+                    
+                }
+                if (titleCase == "Color")
+                {
+                    if (_context.Colors.Any(x => x.ColorName == searchProductModel.Target))
+                    {
+                        var matched = _context.Colors.FirstOrDefault(x => x.ColorName == searchProductModel.Target);
+
+                        var productlist = _context.Products.ToList();
+
+                        var listOfMatchedProducts = productlist.FindAll(x => x.ColorId == matched.Id);
+
+                        Result.SetProducts(listOfMatchedProducts);
+                        Result.Result = true;
+                        Result.Message = $"Succeded in finding  Destination:{searchProductModel.Destination} and getting list of Id for Color Matching {searchProductModel.Target}  ID:{matched.Id}. ";
+                        return Result;
+                    }
+
+
+                    Result.Result = false;
+                    Result.Message = $"Failed if( name exist in DataBase on Color).     Destination:{searchProductModel.Destination}.  Target:{searchProductModel.Target} ";
+                    return Result;
+                }
+                if (titleCase == "Size")
+                {
+
+                    if (_context.Sizes.Any(x => x.SizeName == searchProductModel.Target))
+                    {
+
+                        var matched = _context.Sizes.FirstOrDefault(x => x.SizeName == searchProductModel.Target);
+
+                        var productlist = _context.Products.ToList();
+
+                        var listOfMatchedProducts = productlist.FindAll(x => x.SizeId == matched.Id);
+
+                        Result.SetProducts(listOfMatchedProducts);
+                        Result.Result = true;
+                        Result.Message = $"Succeded in finding  Destination:{searchProductModel.Destination} and getting list of Id for Size Matching {searchProductModel.Target}  ID:{matched.Id}. ";
+                        return Result;
+                    }
+
+                    Result.Result = false;
+                    Result.Message = $"Failed if( name exist in DataBase on Size).     Destination:{searchProductModel.Destination}.  Target:{searchProductModel.Target} ";
+                    return Result;
+
+                }
+               
+
+                Result.Result = false;
+                Result.Message = $"Failed all if().     Destination:{searchProductModel.Destination}: try Brand or Category Or Color Or Size First letter needs to be Capital";
+                return Result;
+
+            }
+            catch (Exception)
+            {
+
+                
+            }         
+            Result.Result = false;
+            Result.Message = $"Failed try/catch.     Destination:{searchProductModel.Destination}.   Target:{searchProductModel.Target}.  ColorHex:{searchProductModel.ColorHex} ";
+            return Result;
         }
     }
 }

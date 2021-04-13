@@ -18,5 +18,7 @@ namespace WebShopApi2.Services
         Task<bool> UpdateProductStockSaleAsync(UpdateProductStockSaleModel updateProductStockSaleModel);
 
         Task<ResultWithMessageModel> DeleteAsync(DeleteBasicModel deleteBasicModel);
+
+        ResultWithMessagProductListModel SearchProductForContent(SearchProductModel searchProductModel);
     }
 }
