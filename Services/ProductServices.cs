@@ -19,8 +19,10 @@ namespace WebShopApi2.Services
             _context = context;
         }
 
-        public async Task<bool> CreateBasicAsync(CreateBasicModel createBasicModel)
+        public async Task<ResultWithMessageModel> CreateBasicAsync(CreateBasicModel createBasicModel)
         {
+            var Result = new ResultWithMessageModel();
+
 
             try
             {
@@ -38,7 +40,9 @@ namespace WebShopApi2.Services
 
                             _context.Brands.Add(brand);
                             await _context.SaveChangesAsync();
-                            return true;
+                            Result.Result = true;
+                            Result.Message = $"Succeded in Creating Brand";
+                            return Result;
                         }
                         catch 
                         {
@@ -60,7 +64,9 @@ namespace WebShopApi2.Services
 
                             _context.Categories.Add(categories);
                             await _context.SaveChangesAsync();
-                            return true;
+                            Result.Result = true;
+                            Result.Message = $"Succeded in creating Category";
+                            return Result;
                         }
                         catch
                         {
@@ -82,7 +88,9 @@ namespace WebShopApi2.Services
 
                             _context.Sizes.Add(size);
                             await _context.SaveChangesAsync();
-                            return true;
+                            Result.Result = true;
+                            Result.Message = $"Succeded in creating Size ";
+                            return Result;
                         }
                         catch
                         {
@@ -104,7 +112,9 @@ namespace WebShopApi2.Services
 
                             _context.Tags.Add(tag);
                             await _context.SaveChangesAsync();
-                            return true;
+                            Result.Result = true;
+                            Result.Message = $"Succeded in creating Tag ";
+                            return Result;
                         }
                         catch
                         {
@@ -113,18 +123,27 @@ namespace WebShopApi2.Services
                         }
                     }
                 }
-               
+
+                Result.Result = false;
+                Result.Message = $"Failed If ";
+                return Result;
             }
             catch 
             {
                 
 
             }
-            return false;
+
+            Result.Result = false;
+            Result.Message = $"Failed Try/Catch ";
+            return Result;
         }
 
-        public async Task<bool> CreateColorAsync(CreateColorModel createColorModel)
+        public async Task<ResultWithMessageModel> CreateColorAsync(CreateColorModel createColorModel)
         {
+            var Result = new ResultWithMessageModel();
+
+
             if (!_context.Colors.Any(color => color.ColorName == createColorModel.ColorName))
             {
                 try
@@ -137,7 +156,9 @@ namespace WebShopApi2.Services
 
                     _context.Colors.Add(color);
                     await _context.SaveChangesAsync();
-                    return true;
+                    Result.Result = true;
+                    Result.Message = $"Succeded in creating Color";
+                    return Result;
                 }
                 catch
                 {
@@ -145,11 +166,17 @@ namespace WebShopApi2.Services
 
                 }
             }
-            return false;
+            Result.Result = true;
+            Result.Message = $"Failed in creating Color: if(Condition) = False";
+            return Result;
         }
 
-        public async Task<bool> CreateProductAsync(CreateProductModel createProductModel)
+        public async Task<ResultWithMessageModel> CreateProductAsync(CreateProductModel createProductModel)
         {
+            var Result = new ResultWithMessageModel();
+
+
+            
             if (!_context.Products.Any(products => products.ProductName == createProductModel.ProductName))
             {
                 try
@@ -172,7 +199,9 @@ namespace WebShopApi2.Services
                     };
                     _context.Products.Add(product);
                     await _context.SaveChangesAsync();
-                    return true;
+                    Result.Result = true;
+                    Result.Message = $"Succeded in creating Product";
+                    return Result;
                 }
                 catch 
                 {
@@ -180,15 +209,21 @@ namespace WebShopApi2.Services
                     
                 }
             }
-            return false;
+            Result.Result = true;
+            Result.Message = $"Failed in creating Product: if(Condition) = false ";
+            return Result;
         }
 
 
 
 
-        public async Task<bool> UpdateBasicAsync(UpdateBasicModel updateBasicModel)
+        public async Task<ResultWithMessageModel> UpdateBasicAsync(UpdateBasicModel updateBasicModel)
         {
-            if (updateBasicModel.Destination == "Brand")
+            var Result = new ResultWithMessageModel();
+
+
+            string titleCase = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(updateBasicModel.Destination);
+            if (titleCase == "Brand")
             {
                 if (_context.Brands.Any(brands => brands.BrandName == updateBasicModel.CurrentName))
                 {
@@ -201,7 +236,9 @@ namespace WebShopApi2.Services
                             updatebrand.BrandName = updateBasicModel.NewName;
                             await _context.SaveChangesAsync();
                         }
-                        return true;
+                        Result.Result = true;
+                        Result.Message = $"Succeded in Updateing Brand";
+                        return Result;
                     }
                     catch 
                     {
@@ -211,7 +248,7 @@ namespace WebShopApi2.Services
                 }
               
             }
-            if (updateBasicModel.Destination == "Category")
+            if (titleCase == "Category")
             {
 
                 if (_context.Categories.Any(category => category.CategoryName == updateBasicModel.CurrentName))
@@ -225,7 +262,9 @@ namespace WebShopApi2.Services
                             updatecategory.CategoryName = updateBasicModel.NewName;
                             await _context.SaveChangesAsync();
                         }
-                        return true;
+                        Result.Result = true;
+                        Result.Message = $"Succeded in Updating Category";
+                        return Result;
                     }
                     catch
                     {
@@ -235,7 +274,7 @@ namespace WebShopApi2.Services
                 }
 
             }
-            if (updateBasicModel.Destination == "Size")
+            if (titleCase == "Size")
             {
                 if (_context.Sizes.Any( size => size.SizeName == updateBasicModel.CurrentName))
                 {
@@ -248,7 +287,9 @@ namespace WebShopApi2.Services
                             updatesize.SizeName = updateBasicModel.NewName;
                             await _context.SaveChangesAsync();
                         }
-                        return true;
+                        Result.Result = true;
+                        Result.Message = $"Succeded in Updateing Size";
+                        return Result;
                     }
                     catch
                     {
@@ -257,7 +298,7 @@ namespace WebShopApi2.Services
                     }
                 }
             }
-            if (updateBasicModel.Destination == "Tag")
+            if (titleCase == "Tag")
             {
                 if (_context.Tags.Any(tag => tag.TagName == updateBasicModel.CurrentName))
                 {
@@ -270,7 +311,9 @@ namespace WebShopApi2.Services
                             updatetag.TagName = updateBasicModel.NewName;
                             await _context.SaveChangesAsync();
                         }
-                        return true;
+                        Result.Result = true;
+                        Result.Message = $"Succeded in Updating Tag ";
+                        return Result;
                     }
                     catch
                     {
@@ -279,11 +322,18 @@ namespace WebShopApi2.Services
                     }
                 }
             }
-            return false;
+
+            Result.Result = false;
+            Result.Message = $"if(Condition) = false";
+            return Result;
         }
 
-        public async Task<bool> UpdateColorAsync(UpdateColorModel updateColorModel)
+        public async Task<ResultWithMessageModel> UpdateColorAsync(UpdateColorModel updateColorModel)
         {
+
+            var Result = new ResultWithMessageModel();
+
+
             if (_context.Colors.Any(color => color.ColorName == updateColorModel.CurrentColorName))
             {
                 try
@@ -304,7 +354,9 @@ namespace WebShopApi2.Services
                         }
 
                         await _context.SaveChangesAsync();
-                        return true;
+                        Result.Result = true;
+                        Result.Message = $"Succeded in Updating Color ";
+                        return Result;
                     }
 
                 }
@@ -313,11 +365,17 @@ namespace WebShopApi2.Services
 
                 }
             }
-            return false;
+
+            Result.Result = false;
+            Result.Message = $"Failed in UpdateingColor: if(condition) = false";
+            return Result;
         }
 
-        public async Task<bool> UpdatedProductAsync(UpdateProductModel updateProductModel)
+        public async Task<ResultWithMessageModel> UpdatedProductAsync(UpdateProductModel updateProductModel)
         {
+            var Result = new ResultWithMessageModel();
+
+
             var updateproduct = _context.Products.FirstOrDefault(x => x.ProductName == updateProductModel.CurrentProductName);
             if (updateproduct != null)
             {
@@ -347,14 +405,23 @@ namespace WebShopApi2.Services
                 }
                 await _context.SaveChangesAsync();
 
-                return true;
+                Result.Result = true;
+                Result.Message = $"Succeded in Updateing Product";
+                return Result;
 
             }
-            return false;
+
+            Result.Result = false;
+            Result.Message = $"Failed in Updateing Product";
+            return Result;
         }
 
-        public async Task<bool> UpdateProductStockSaleAsync(UpdateProductStockSaleModel updateProductStockSaleModel)
+        public async Task<ResultWithMessageModel> UpdateProductStockSaleAsync(UpdateProductStockSaleModel updateProductStockSaleModel)
         {
+
+            var Result = new ResultWithMessageModel();
+
+
             var updatedProductStockSale = _context.Products.FirstOrDefault(x => x.ProductName == updateProductStockSaleModel.CurrentProductName);
 
             if (updatedProductStockSale != null)
@@ -363,9 +430,14 @@ namespace WebShopApi2.Services
                 updatedProductStockSale.OnSale = updateProductStockSaleModel.NewOnSale;
 
                 await _context.SaveChangesAsync();
-                return true;
+                Result.Result = true;
+                Result.Message = $"Succeded in Updateing ProdcutStockSale";
+                return Result;
             }
-            return false;
+
+            Result.Result = false;
+            Result.Message = $"Failed in Updateing ProdcutStockSale: if(Condition) = null";
+            return Result;
         }
 
 
