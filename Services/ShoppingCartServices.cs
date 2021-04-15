@@ -97,7 +97,7 @@ namespace WebShopApi2.Services
             if (shoppingCartListModel.ProductId == 0)
             {
                 Result.Message = $"ProductId = 0";
-                Result.Result = true;
+                Result.Result = false;
                 return Result;
             }
                 
@@ -208,15 +208,50 @@ namespace WebShopApi2.Services
             }
             if (ProductCartId == 0 && CartNumberId == 0)
             {
-                Result.Result = true;
-                Result.Message = $"ProductCartId = 0  &&  CartNumberId = 0";
+                Result.Result = false;
+                Result.Message = $"ProductCartId = {ProductCartId}  &&  CartNumberId = {CartNumberId}";
                 return Result;
             }
-            
+            if (ProductCartId == 0 | CartNumberId == 0)
+            {
+                Result.Result = false;
+                Result.Message = $"ProductCartId = {ProductCartId}  |  CartNumberId = {CartNumberId}";
+                return Result;
+            }
+
 
             Result.Result = false;
             Result.Message = $"Failed in adding Product too Cart";
             return Result;
         }
+
+        public async Task<ResultWithMessage> UpdateShopingCart(UpdateShopingCartListModel updateShopingCartListModel)
+        {
+
+            var Result = new ResultWithMessage();
+
+            var productShoppingList = _context.ProductShoppingCarts.FirstOrDefault(x => x.Id == updateShopingCartListModel.IdOfList);
+
+            if (productShoppingList != null)
+            {
+                if (updateShopingCartListModel.Quantity != 0)
+                {
+                    productShoppingList.Quantity = updateShopingCartListModel.Quantity;
+
+                    await _context.SaveChangesAsync();
+
+                    Result.Result = true;
+                    Result.Message = $"{productShoppingList.Quantity} Changed too {updateShopingCartListModel.Quantity}";
+                    return Result;
+                }
+                Result.Result = false;
+                Result.Message = $"new Qunatity = {updateShopingCartListModel.Quantity} and cannot be 0 must be < 0";
+                return Result;
+            }
+            Result.Result = false;
+            Result.Message = $"{updateShopingCartListModel.IdOfList} do not match any Id in ProductShoppingCarts";
+            return Result;
+        }
+
     }
 }
