@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using WebShopApi2.Data;
@@ -18,13 +19,15 @@ namespace WebShopApi2.Services
             _context = context;
         }
 
-        public async Task<bool> CreateBasicAsync(CreateBasicModel createBasicModel)
+        public async Task<ResultWithMessageModel> CreateBasicAsync(CreateBasicModel createBasicModel)
         {
+            var Result = new ResultWithMessageModel();
+
 
             try
             {
-
-                if (createBasicModel.Destination == "Brand")
+                string titleCase = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(createBasicModel.Destination);
+                if (titleCase == "Brand" )
                 {
                     if (! _context.Brands.Any(brand => brand.BrandName == createBasicModel.Name))
                     {
@@ -37,7 +40,9 @@ namespace WebShopApi2.Services
 
                             _context.Brands.Add(brand);
                             await _context.SaveChangesAsync();
-                            return true;
+                            Result.Result = true;
+                            Result.Message = $"Succeded in Creating Brand";
+                            return Result;
                         }
                         catch 
                         {
@@ -46,7 +51,7 @@ namespace WebShopApi2.Services
                         }
                     }
                 }
-                if (createBasicModel.Destination == "Category")
+                if (titleCase == "Category" )
                 {
                     if (!_context.Categories.Any(categories => categories.CategoryName == createBasicModel.Name))
                     {
@@ -59,7 +64,9 @@ namespace WebShopApi2.Services
 
                             _context.Categories.Add(categories);
                             await _context.SaveChangesAsync();
-                            return true;
+                            Result.Result = true;
+                            Result.Message = $"Succeded in creating Category";
+                            return Result;
                         }
                         catch
                         {
@@ -68,7 +75,7 @@ namespace WebShopApi2.Services
                         }
                     }
                 }
-                if (createBasicModel.Destination == "Size")
+                if (titleCase == "Size" )
                 {
                     if (!_context.Sizes.Any(size => size.SizeName == createBasicModel.Name))
                     {
@@ -81,7 +88,9 @@ namespace WebShopApi2.Services
 
                             _context.Sizes.Add(size);
                             await _context.SaveChangesAsync();
-                            return true;
+                            Result.Result = true;
+                            Result.Message = $"Succeded in creating Size ";
+                            return Result;
                         }
                         catch
                         {
@@ -90,7 +99,7 @@ namespace WebShopApi2.Services
                         }
                     }
                 }
-                if (createBasicModel.Destination == "Tag")
+                if (titleCase == "Tag" )
                 {
                     if (!_context.Tags.Any(tag => tag.TagName == createBasicModel.Name))
                     {
@@ -103,7 +112,9 @@ namespace WebShopApi2.Services
 
                             _context.Tags.Add(tag);
                             await _context.SaveChangesAsync();
-                            return true;
+                            Result.Result = true;
+                            Result.Message = $"Succeded in creating Tag ";
+                            return Result;
                         }
                         catch
                         {
@@ -112,18 +123,27 @@ namespace WebShopApi2.Services
                         }
                     }
                 }
-               
+
+                Result.Result = false;
+                Result.Message = $"Failed If ";
+                return Result;
             }
             catch 
             {
                 
 
             }
-            return false;
+
+            Result.Result = false;
+            Result.Message = $"Failed Try/Catch ";
+            return Result;
         }
 
-        public async Task<bool> CreateColorAsync(CreateColorModel createColorModel)
+        public async Task<ResultWithMessageModel> CreateColorAsync(CreateColorModel createColorModel)
         {
+            var Result = new ResultWithMessageModel();
+
+
             if (!_context.Colors.Any(color => color.ColorName == createColorModel.ColorName))
             {
                 try
@@ -136,7 +156,9 @@ namespace WebShopApi2.Services
 
                     _context.Colors.Add(color);
                     await _context.SaveChangesAsync();
-                    return true;
+                    Result.Result = true;
+                    Result.Message = $"Succeded in creating Color";
+                    return Result;
                 }
                 catch
                 {
@@ -144,11 +166,17 @@ namespace WebShopApi2.Services
 
                 }
             }
-            return false;
+            Result.Result = true;
+            Result.Message = $"Failed in creating Color: if(Condition) = False";
+            return Result;
         }
 
-        public async Task<bool> CreateProductAsync(CreateProductModel createProductModel)
+        public async Task<ResultWithMessageModel> CreateProductAsync(CreateProductModel createProductModel)
         {
+            var Result = new ResultWithMessageModel();
+
+
+            
             if (!_context.Products.Any(products => products.ProductName == createProductModel.ProductName))
             {
                 try
@@ -171,7 +199,9 @@ namespace WebShopApi2.Services
                     };
                     _context.Products.Add(product);
                     await _context.SaveChangesAsync();
-                    return true;
+                    Result.Result = true;
+                    Result.Message = $"Succeded in creating Product";
+                    return Result;
                 }
                 catch 
                 {
@@ -179,15 +209,21 @@ namespace WebShopApi2.Services
                     
                 }
             }
-            return false;
+            Result.Result = true;
+            Result.Message = $"Failed in creating Product: if(Condition) = false ";
+            return Result;
         }
 
 
 
 
-        public async Task<bool> UpdateBasicAsync(UpdateBasicModel updateBasicModel)
+        public async Task<ResultWithMessageModel> UpdateBasicAsync(UpdateBasicModel updateBasicModel)
         {
-            if (updateBasicModel.Destination == "Brand")
+            var Result = new ResultWithMessageModel();
+
+
+            string titleCase = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(updateBasicModel.Destination);
+            if (titleCase == "Brand")
             {
                 if (_context.Brands.Any(brands => brands.BrandName == updateBasicModel.CurrentName))
                 {
@@ -200,7 +236,9 @@ namespace WebShopApi2.Services
                             updatebrand.BrandName = updateBasicModel.NewName;
                             await _context.SaveChangesAsync();
                         }
-                        return true;
+                        Result.Result = true;
+                        Result.Message = $"Succeded in Updateing Brand";
+                        return Result;
                     }
                     catch 
                     {
@@ -210,7 +248,7 @@ namespace WebShopApi2.Services
                 }
               
             }
-            if (updateBasicModel.Destination == "Category")
+            if (titleCase == "Category")
             {
 
                 if (_context.Categories.Any(category => category.CategoryName == updateBasicModel.CurrentName))
@@ -224,7 +262,9 @@ namespace WebShopApi2.Services
                             updatecategory.CategoryName = updateBasicModel.NewName;
                             await _context.SaveChangesAsync();
                         }
-                        return true;
+                        Result.Result = true;
+                        Result.Message = $"Succeded in Updating Category";
+                        return Result;
                     }
                     catch
                     {
@@ -234,7 +274,7 @@ namespace WebShopApi2.Services
                 }
 
             }
-            if (updateBasicModel.Destination == "Size")
+            if (titleCase == "Size")
             {
                 if (_context.Sizes.Any( size => size.SizeName == updateBasicModel.CurrentName))
                 {
@@ -247,7 +287,9 @@ namespace WebShopApi2.Services
                             updatesize.SizeName = updateBasicModel.NewName;
                             await _context.SaveChangesAsync();
                         }
-                        return true;
+                        Result.Result = true;
+                        Result.Message = $"Succeded in Updateing Size";
+                        return Result;
                     }
                     catch
                     {
@@ -256,7 +298,7 @@ namespace WebShopApi2.Services
                     }
                 }
             }
-            if (updateBasicModel.Destination == "Tag")
+            if (titleCase == "Tag")
             {
                 if (_context.Tags.Any(tag => tag.TagName == updateBasicModel.CurrentName))
                 {
@@ -269,7 +311,9 @@ namespace WebShopApi2.Services
                             updatetag.TagName = updateBasicModel.NewName;
                             await _context.SaveChangesAsync();
                         }
-                        return true;
+                        Result.Result = true;
+                        Result.Message = $"Succeded in Updating Tag ";
+                        return Result;
                     }
                     catch
                     {
@@ -278,11 +322,18 @@ namespace WebShopApi2.Services
                     }
                 }
             }
-            return false;
+
+            Result.Result = false;
+            Result.Message = $"if(Condition) = false";
+            return Result;
         }
 
-        public async Task<bool> UpdateColorAsync(UpdateColorModel updateColorModel)
+        public async Task<ResultWithMessageModel> UpdateColorAsync(UpdateColorModel updateColorModel)
         {
+
+            var Result = new ResultWithMessageModel();
+
+
             if (_context.Colors.Any(color => color.ColorName == updateColorModel.CurrentColorName))
             {
                 try
@@ -303,7 +354,9 @@ namespace WebShopApi2.Services
                         }
 
                         await _context.SaveChangesAsync();
-                        return true;
+                        Result.Result = true;
+                        Result.Message = $"Succeded in Updating Color ";
+                        return Result;
                     }
 
                 }
@@ -312,11 +365,17 @@ namespace WebShopApi2.Services
 
                 }
             }
-            return false;
+
+            Result.Result = false;
+            Result.Message = $"Failed in UpdateingColor: if(condition) = false";
+            return Result;
         }
 
-        public async Task<bool> UpdatedProductAsync(UpdateProductModel updateProductModel)
+        public async Task<ResultWithMessageModel> UpdatedProductAsync(UpdateProductModel updateProductModel)
         {
+            var Result = new ResultWithMessageModel();
+
+
             var updateproduct = _context.Products.FirstOrDefault(x => x.ProductName == updateProductModel.CurrentProductName);
             if (updateproduct != null)
             {
@@ -346,14 +405,23 @@ namespace WebShopApi2.Services
                 }
                 await _context.SaveChangesAsync();
 
-                return true;
+                Result.Result = true;
+                Result.Message = $"Succeded in Updateing Product";
+                return Result;
 
             }
-            return false;
+
+            Result.Result = false;
+            Result.Message = $"Failed in Updateing Product";
+            return Result;
         }
 
-        public async Task<bool> UpdateProductStockSaleAsync(UpdateProductStockSaleModel updateProductStockSaleModel)
+        public async Task<ResultWithMessageModel> UpdateProductStockSaleAsync(UpdateProductStockSaleModel updateProductStockSaleModel)
         {
+
+            var Result = new ResultWithMessageModel();
+
+
             var updatedProductStockSale = _context.Products.FirstOrDefault(x => x.ProductName == updateProductStockSaleModel.CurrentProductName);
 
             if (updatedProductStockSale != null)
@@ -362,9 +430,14 @@ namespace WebShopApi2.Services
                 updatedProductStockSale.OnSale = updateProductStockSaleModel.NewOnSale;
 
                 await _context.SaveChangesAsync();
-                return true;
+                Result.Result = true;
+                Result.Message = $"Succeded in Updateing ProdcutStockSale";
+                return Result;
             }
-            return false;
+
+            Result.Result = false;
+            Result.Message = $"Failed in Updateing ProdcutStockSale: if(Condition) = null";
+            return Result;
         }
 
 
@@ -500,6 +573,128 @@ namespace WebShopApi2.Services
             result.Result = false;
             return result;
 
+        }
+
+        public ResultWithMessagProductListModel SearchProductForContent(SearchProductModel searchProductModel)
+        {
+            var Result = new ResultWithMessagProductListModel();
+
+            var produtList = _context.Products.ToList();
+
+            
+            
+            
+            try
+            {
+
+                string titleCase = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(searchProductModel.Destination);
+                if (titleCase == "Brand")
+                {
+                    if (_context.Brands.Any(x => x.BrandName  == searchProductModel.Target))
+                    {
+                        var matched = _context.Brands.FirstOrDefault(x => x.BrandName == searchProductModel.Target);
+
+                        var productList = _context.Products.ToList();
+
+                        var listOfMatchedProducts = productList.FindAll(x => x.BrandId == matched.Id);
+
+                        Result.SetProducts(listOfMatchedProducts);
+                        Result.Result = true;
+                        Result.Message = $"Succeded in finding  Destination:{searchProductModel.Destination} and getting list of Id for Brands Matching {searchProductModel.Target}  ID:{matched.Id}. ";
+                        return Result;
+
+                    }
+
+                    Result.Result = false;
+                    Result.Message = $"Failed if( name exist in DataBase on Brand).     Destination:{searchProductModel.Destination}.  Target:{searchProductModel.Target} ";
+                    return Result;
+
+                    
+                }
+                if (titleCase == "Category")
+                {
+                    if (_context.Categories.Any(x => x.CategoryName  == searchProductModel.Target))
+                    {
+                        var matched = _context.Categories.FirstOrDefault(x => x.CategoryName == searchProductModel.Target);
+
+                        var productlist = _context.Products.ToList();
+
+                        var listOfMatchedProducts = productlist.FindAll(x => x.CategoryId == matched.Id);
+
+
+
+                        Result.SetProducts(listOfMatchedProducts);
+                        Result.Result = true;
+                        Result.Message = $"Succeded in finding  Destination:{searchProductModel.Destination} and getting list of Id for Category Matching {searchProductModel.Target}  ID:{matched.Id}. ";
+                        return Result;
+
+                    }
+
+                    Result.Result = false;
+                    Result.Message = $"Failed if( name exist in DataBase on Category).     Destination:{searchProductModel.Destination}.  Target:{searchProductModel.Target} ";
+                    return Result;
+
+                    
+                }
+                if (titleCase == "Color")
+                {
+                    if (_context.Colors.Any(x => x.ColorName == searchProductModel.Target))
+                    {
+                        var matched = _context.Colors.FirstOrDefault(x => x.ColorName == searchProductModel.Target);
+
+                        var productlist = _context.Products.ToList();
+
+                        var listOfMatchedProducts = productlist.FindAll(x => x.ColorId == matched.Id);
+
+                        Result.SetProducts(listOfMatchedProducts);
+                        Result.Result = true;
+                        Result.Message = $"Succeded in finding  Destination:{searchProductModel.Destination} and getting list of Id for Color Matching {searchProductModel.Target}  ID:{matched.Id}. ";
+                        return Result;
+                    }
+
+
+                    Result.Result = false;
+                    Result.Message = $"Failed if( name exist in DataBase on Color).     Destination:{searchProductModel.Destination}.  Target:{searchProductModel.Target} ";
+                    return Result;
+                }
+                if (titleCase == "Size")
+                {
+
+                    if (_context.Sizes.Any(x => x.SizeName == searchProductModel.Target))
+                    {
+
+                        var matched = _context.Sizes.FirstOrDefault(x => x.SizeName == searchProductModel.Target);
+
+                        var productlist = _context.Products.ToList();
+
+                        var listOfMatchedProducts = productlist.FindAll(x => x.SizeId == matched.Id);
+
+                        Result.SetProducts(listOfMatchedProducts);
+                        Result.Result = true;
+                        Result.Message = $"Succeded in finding  Destination:{searchProductModel.Destination} and getting list of Id for Size Matching {searchProductModel.Target}  ID:{matched.Id}. ";
+                        return Result;
+                    }
+
+                    Result.Result = false;
+                    Result.Message = $"Failed if( name exist in DataBase on Size).     Destination:{searchProductModel.Destination}.  Target:{searchProductModel.Target} ";
+                    return Result;
+
+                }
+               
+
+                Result.Result = false;
+                Result.Message = $"Failed all if().     Destination:{searchProductModel.Destination}: try Brand or Category Or Color Or Size First letter needs to be Capital";
+                return Result;
+
+            }
+            catch (Exception)
+            {
+
+                
+            }         
+            Result.Result = false;
+            Result.Message = $"Failed try/catch.     Destination:{searchProductModel.Destination}.   Target:{searchProductModel.Target}.  ColorHex:{searchProductModel.ColorHex} ";
+            return Result;
         }
     }
 }

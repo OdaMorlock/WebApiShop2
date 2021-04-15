@@ -8,15 +8,17 @@ namespace WebShopApi2.Services
 {
     public interface IProductServices
     {
-        Task<bool> CreateBasicAsync(CreateBasicModel createBasicModel);
-        Task<bool> CreateColorAsync(CreateColorModel createColorModel);
-        Task<bool> CreateProductAsync(CreateProductModel createProductModel);
+        Task<ResultWithMessageModel> CreateBasicAsync(CreateBasicModel createBasicModel);
+        Task<ResultWithMessageModel> CreateColorAsync(CreateColorModel createColorModel);
+        Task<ResultWithMessageModel> CreateProductAsync(CreateProductModel createProductModel);
 
-        Task<bool> UpdateBasicAsync(UpdateBasicModel updateBasicModel);
-        Task<bool> UpdateColorAsync(UpdateColorModel updateColorModel);
-        Task<bool> UpdatedProductAsync(UpdateProductModel updateProductModel);
-        Task<bool> UpdateProductStockSaleAsync(UpdateProductStockSaleModel updateProductStockSaleModel);
+        Task<ResultWithMessageModel> UpdateBasicAsync(UpdateBasicModel updateBasicModel);
+        Task<ResultWithMessageModel> UpdateColorAsync(UpdateColorModel updateColorModel);
+        Task<ResultWithMessageModel> UpdatedProductAsync(UpdateProductModel updateProductModel);
+        Task<ResultWithMessageModel> UpdateProductStockSaleAsync(UpdateProductStockSaleModel updateProductStockSaleModel);
 
         Task<ResultWithMessageModel> DeleteAsync(DeleteBasicModel deleteBasicModel);
+
+        ResultWithMessagProductListModel SearchProductForContent(SearchProductModel searchProductModel);
     }
 }

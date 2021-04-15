@@ -26,22 +26,24 @@ namespace WebShopApi2.Controllers
         [HttpPost("AddBasic")]
         public async Task<IActionResult> CreateBasicAsync([FromBody] CreateBasicModel createBasicModel)
         {
-            if (await _product.CreateBasicAsync(createBasicModel))
+            var Result = (await _product.CreateBasicAsync(createBasicModel));
+            if (Result.Result)
             {
-                return new OkObjectResult($"{createBasicModel.Destination} Created Successfully");
+                return new OkObjectResult($"{Result.Message}.  {createBasicModel.Destination}Name:{createBasicModel.Name}");
             }
-            return new BadRequestObjectResult($"{createBasicModel.Destination} Unable too Create Try   Brand,   Category,    Size(Max 8 Char),    Tag");
+            return new BadRequestObjectResult($"{Result.Message}. {createBasicModel.Destination}Name:{createBasicModel.Name}    : Try   Brand,   Category,    Size(Max 8 Char),    Tag");
         }
 
         [HttpPost("AddColor")]
         public async Task<IActionResult> CreateColorAsync([FromBody] CreateColorModel createColorModel)
         {
-            if (await _product.CreateColorAsync(createColorModel))
+            var Result = (await _product.CreateColorAsync(createColorModel));
+            if (Result.Result)
             {
-                return new OkObjectResult($"{createColorModel.ColorName} Created Successfully");
+                return new OkObjectResult($"{Result.Message}. ColorName:{createColorModel.ColorName}. ColorHex:{createColorModel.ColorHex} ");
             }
 
-            return new BadRequestObjectResult($"{createColorModel.ColorName} Unable too Create {createColorModel.ColorHex}");
+            return new BadRequestObjectResult($"{Result.Message} . ColorName:{createColorModel.ColorName} . ColorHex:{createColorModel.ColorHex} .");
         }
 
 
@@ -49,21 +51,23 @@ namespace WebShopApi2.Controllers
         [HttpPut("UpdateBasic")]
         public async Task<IActionResult> UpdateBasicAsync([FromBody] UpdateBasicModel updateBasicModel)
         {
-            if (await _product.UpdateBasicAsync(updateBasicModel))
+            var Result = (await _product.UpdateBasicAsync(updateBasicModel));
+            if (Result.Result)
             {
-                return new OkObjectResult($"{updateBasicModel.Destination} Successfully Updated");
+                return new OkObjectResult($"{Result.Message}. OldName:{updateBasicModel.CurrentName}.  NewName:{updateBasicModel.NewName} ");
             }
-            return new BadRequestObjectResult($"{updateBasicModel.Destination} Failed too updated, Try Brand,  Category,  Size or Tag as Destination");
+            return new BadRequestObjectResult($"{Result.Message}: Try Brand,  Category,  Size or Tag as Destination");
         }
 
         [HttpPut("UpdateColor")]
         public async Task<IActionResult> UpdateColorAsync([FromBody] UpdateColorModel updateColorModel)
         {
-            if (await _product.UpdateColorAsync(updateColorModel))
+            var Result = (await _product.UpdateColorAsync(updateColorModel));
+            if (Result.Result)
             {
-                return new OkObjectResult($"{updateColorModel.CurrentColorName} Updated with name {updateColorModel.NewColorName}");
+                return new OkObjectResult($"{Result.Message}.   OldColorName:{updateColorModel.CurrentColorName}.  NewColorName:{updateColorModel.NewColorName}.");
             }
-            return new BadRequestObjectResult($"{updateColorModel.CurrentColorName} Failed to Updated");
+            return new BadRequestObjectResult($"{Result.Message} Failed to Updated");
         }
 
 

@@ -7,6 +7,10 @@ namespace WebShopApi2.Models.ProductServiceModels
 {
     public class ResultWithMessageModel
     {
+        public ResultWithMessageModel()
+        {
+        }
+
         public string Message { get; set; }
         public bool Result { get; set; }
     }
