@@ -49,5 +49,16 @@ namespace WebShopApi2.Controllers
             }
             return new BadRequestObjectResult($"{Result.Message},");
         }
+
+        [HttpPut("UpdateShopingCart")]
+        public async Task<IActionResult> UpdateShopingCartAsync([FromBody] UpdateShopingCartListModel updateShopingCartListModel)
+        {
+            var Result = (await _shopping.UpdateShopingCart(updateShopingCartListModel));
+            if (Result.Result)
+            {
+                return new OkObjectResult($"{Result.Message}");
+            }
+            return new BadRequestObjectResult($"{Result.Message}");
+        }
     }
 }
