@@ -70,6 +70,12 @@ namespace WebShopApi2.Controllers
             return new BadRequestObjectResult($"{Result.Message} Failed to Updated");
         }
 
+        [HttpGet("GetCategories")]
+        public async Task<IActionResult> GetCategoriesAsync()
+        {
+            return new OkObjectResult(await _product.GetCategoriesAsync());
+        }
+
 
 
     }
