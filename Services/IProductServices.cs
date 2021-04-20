@@ -20,5 +20,7 @@ namespace WebShopApi2.Services
         Task<ResultWithMessageModel> DeleteAsync(DeleteBasicModel deleteBasicModel);
 
         ResultWithMessagProductListModel SearchProductForContent(SearchProductModel searchProductModel);
+
+        Task<IEnumerable<GetCategoriesModel>> GetCategoriesAsync();
     }
 }
