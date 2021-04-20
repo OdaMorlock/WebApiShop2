@@ -33,6 +33,8 @@ namespace WebShopApi2
             services.AddScoped<IProductServices, ProductServices>();
             services.AddScoped<IShoppingCartServices, ShoppingCartServices>();
 
+            services.AddCors();
+
             services.AddDbContext<SqlDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Sqlconnection")));
 
 
@@ -56,6 +58,8 @@ namespace WebShopApi2
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors(cors => cors.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 
             app.UseAuthorization();
 

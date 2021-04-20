@@ -696,5 +696,22 @@ namespace WebShopApi2.Services
             Result.Message = $"Failed try/catch.     Destination:{searchProductModel.Destination}.   Target:{searchProductModel.Target}.  ColorHex:{searchProductModel.ColorHex} ";
             return Result;
         }
+
+        public async Task<IEnumerable<GetCategoriesModel>> GetCategoriesAsync()
+        {
+            var CategoriesList = new List<GetCategoriesModel>();
+            var categorylist = _context.Categories.ToList();
+
+            foreach (var categoriesList in categorylist)
+            {
+                CategoriesList.Add(new GetCategoriesModel
+                {
+                    Id = categoriesList.Id,
+                    Name = categoriesList.CategoryName
+                });
+
+            }
+            return CategoriesList;
+        }
     }
 }
